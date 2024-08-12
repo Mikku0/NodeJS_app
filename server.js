@@ -1,44 +1,55 @@
-// const http = require('http');
-
-// const hostname = '127.0.0.1';
-// const port = 3000;
-
-// const server = http.createServer((req, res) => {
-//   res.statusCode = 200;
-//   res.setHeader('Content-Type', 'text/plain');
-//   res.end('Hello, World!\n');
-// });
-
-// server.listen(port, hostname, () => {
-//   console.log(`Server running at http://${hostname}:${port}/`);
-// });
-
 const http = require('http');
+const url = require('url');
 const fs = require('fs');
 const path = require('path');
 
-const hostname = '127.0.0.1';
-const port = 3000;
+let {parse} = require('querystring');
 
-const server = http.createServer((req, res) => {
-  // Ustal ścieżkę do pliku HTML
-  const filePath = path.join(__dirname, 'index.html');
+// http.createServer((req, res) => {
+//   const pathname = 'test.html'
+//   const filename = path.join(__dirname, 'views', pathname);  
 
-  // Sprawdź, czy żądany plik istnieje
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.setHeader('Content-Type', 'text/plain');
-      res.end('Internal Server Error\n');
-      return;
-    }
-    // Ustaw odpowiedni nagłówek Content-Type
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html');
-    res.end(data);
+//   fs.readFile(filename, (err, data) => {
+//     if (err) {
+//       res.writeHead(404, {'Content-type': 'text/html'});
+//       return res.end('404 file not found');
+//     }
+//     res.writeHead(200, {'Content-type': 'text/html'});
+//     res.write(data);
+//     res.end();
+//   });
+// }).listen(8080);
+
+// console.log('Server running at http://localhost:8080/');
+
+const htmlForm = `
+  <html>
+    <head>
+      <title>Form</title>
+    </head>
+    <body>
+      <form method="post">
+        Name: <input type="text" name="name"> <br>
+        Surname: <input type="text" name="surname"> <br>
+        email: <input type="text" name="email"> <br>
+        <input type="submit" value="Submit"> 
+      </form>
+    </body>
+  </html>
+`;
+
+http.createServer((req, res) => {
+  let data = "";
+  req.on('data', function(chunk) {
+    data += chunk;
   });
-});
+  
+  req.on('end', function () {
+    const parsed = parse(data);
+    console.log(JSON.stringify(parsed));
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+    res.writeHead(200);
+    res.write(htmlForm);
+    res.end();
+  });
+}).listen(8080);

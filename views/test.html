@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            height: 100vh;
+            margin: 0;
+            background-color: #2e2b2b;
+        }
+        .calculator {
+            position: absolute;
+            border-radius: 5%;
+            background-color: black;
+            width: 500px;
+            aspect-ratio: 1.1618;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 1%;            
+        }
+        button {
+            font-size: 50px;            
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            box-sizing: border-box;
+            background-color: #fdad00;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition-duration: 0.4s;
+        }
+        
+        button:hover {
+            background-color: black;
+            color: white;
+        }
+        #display {
+            background-color: #000000;
+            text-align: right;            
+            width: 100%;
+            height: 30%;
+            padding: 20px;
+            color: white;
+            font-size: 60px;
+            border: none;
+            border-radius: 50%;
+            box-sizing: border-box;
+        }        
+        .operator-button {
+            background-color: rgb(102, 102, 102);
+        }
+        .equals-button {
+            background-color: rgb(255, 255, 255);
+            color: #000000;
+        }
+        input[readonly] {
+            cursor: default;
+            outline: none;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class='calculator'>
+        <input id='display' readonly>
+        <div class='buttons'>
+            <button onclick="appendToDisplay('(')" class="operator-button">(</button>
+            <button onclick="appendToDisplay(')')" class="operator-button">)</button>
+            <button onclick="appendToDisplay('%')" class="operator-button">%</button>
+            <button onclick="clearDisplay()" class="operator-button">C</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('+')" class="operator-button">+</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>            
+            <button onclick="appendToDisplay('-')" class="operator-button">-</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')" class="operator-button">/</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate()" class="equals-button">=</button>                        
+            <button onclick="appendToDisplay('*')" class="operator-button">*</button>
+        </div>
+
+    </div>
+    <script>
+        const display = document.getElementById('display');
+
+        function appendToDisplay(input) {
+            display.value += input;
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function calculate() {
+            display.value = eval(display.value);
+        }
+        
+
+    </script>
+</body>
+
+</html>
+
